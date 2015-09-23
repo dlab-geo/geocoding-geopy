@@ -291,7 +291,7 @@ Convert JSON to CSV
 ---
 title: Manipulating the JSON object in Python 
 
-Go to Photon API <a href=" http://photon.komoot.de/api/?q=1600%20Amphitheatre%20Pkwy,%20Mountain%20View,%20CA" target="_blank">link</a>and paste output in command below: 
+Go to Photon API <a href=" http://photon.komoot.de/api/?q=1600%20Amphitheatre%20Pkwy,%20Mountain%20View,%20CA" target="_blank">link</a> and paste output in command below: 
    
 <pre class="prettyprint" data-lang="python">
 
