@@ -289,19 +289,26 @@ Convert JSON to CSV
 - Use other modules, e.g., ```pandas```
 
 ---
-title: JSON to CSV
+title: Manipulating the JSON object in Python 
 
+Go to Photon API <a href=" http://photon.komoot.de/api/?q=1600%20Amphitheatre%20Pkwy,%20Mountain%20View,%20CA" target="_blank">link</a>and paste output in command below: 
+   
 <pre class="prettyprint" data-lang="python">
-import pandas as pd
 
-# load JSON as DataFrame
-json_data = pd.read_json("coordinates.json").T
+import json
 
-# to CSV
-json_data.to_csv("geocoded.csv")
+json_str = '[output from Photon API]' 
+python_obj = json.loads(json_obj)
+
+# navigating dict by key 
+type(python_obj)
+python_obj['features']
+
+# navigating dict by list 
+type(python_obj['features'])
+python_obj['features'][0]
+
 </pre>
-
-Note: ```.T``` transposes the DataFrame
 
 ---
 title: Problems in Reference Data 
@@ -376,7 +383,7 @@ build_lists: false
 
 Clone the repo or download the zip file from:
 
-<a href="http://bit.ly/dlab-geocoding" target="_blank">bit.ly/dlab-geocoding</a>
+<a href="https://github.com/andrewqchong/geocoding-workshop" target="_blank">https://github.com/andrewqchong/geocoding-workshop</a>
 
 Navigate to the directory and start an IPython notebook instance
 

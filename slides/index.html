@@ -462,20 +462,26 @@ URL: https://code.google.com/p/io-2012-slides
 <slide  >
   
     <hgroup>
-      <h2>JSON to CSV</h2>
+      <h2>Manipulating the JSON object in Python</h2>
       <h3></h3>
     </hgroup>
-    <article ><pre class="prettyprint" data-lang="python">
-import pandas as pd
+    <article ><p>Go to Photon API <a href=" http://photon.komoot.de/api/?q=1600%20Amphitheatre%20Pkwy,%20Mountain%20View,%20CA" target="_blank">link</a>and paste output in command below: </p>
+<pre class="prettyprint" data-lang="python">
 
-# load JSON as DataFrame
-json_data = pd.read_json("coordinates.json").T
+import json
 
-# to CSV
-json_data.to_csv("geocoded.csv")
-</pre>
+json_str = '[output from Photon API]' 
+python_obj = json.loads(json_obj)
 
-<p>Note: <code>.T</code> transposes the DataFrame</p></article>
+# navigating dict by key 
+type(python_obj)
+python_obj['features']
+
+# navigating dict by list 
+type(python_obj['features'])
+python_obj['features'][0]
+
+</pre></article>
  
 </slide>
 
@@ -490,7 +496,7 @@ json_data.to_csv("geocoded.csv")
 <li>Incorrect street ranges, inaccurate or low quality features </li>
 <li>Inaccurate feature attributes</li>
 </ul>
-<p>Year matching between geocoded and reference data:</p>
+<p>Year matching between geocoded and reference data</p>
 <ul>
 <li>Missing streets</li>
 <li>Address changes</li>
@@ -522,7 +528,7 @@ json_data.to_csv("geocoded.csv")
     </hgroup>
     <article ><p>To GeoJSON</p>
 <p>Link to Census Blocks</p>
-<pre><code>http://data.fcc.gov/api/block/find?latitude=37.843127&amp;longitude=-122.275285
+<pre><code>http://data.fcc.gov/api/block/find?latitude=&lt;_latitude_&gt;&amp;longitude=&lt;_longitude_&gt;
 </code></pre>
 <p>Block FIPS="<b>060855046011175</b>"</p>
 <p>The first two characters (<b>06</b>) indicate the <b>state</b> (CA), the next three (<b>085</b>) indicate the <b>county</b> (Alameda), the next 6 indicate the <b>census tract</b> (<b>5046.01</b>) and the last four characters indicates the census <b>block</b> group and block number (<b>1175</b>).  The first digit of the block identifies the block group.</p></article>
@@ -571,7 +577,7 @@ json_data.to_csv("geocoded.csv")
       <h3></h3>
     </hgroup>
     <article ><p>Clone the repo or download the zip file from:</p>
-<p><a href="http://bit.ly/dlab-geocoding" target="_blank">bit.ly/dlab-geocoding</a></p>
+<p><a href="https://github.com/andrewqchong/geocoding-workshop" target="_blank">https://github.com/andrewqchong/geocoding-workshop</a></p>
 <p>Navigate to the directory and start an IPython notebook instance</p>
 <pre><code>$ ipython notebook
 </code></pre>
