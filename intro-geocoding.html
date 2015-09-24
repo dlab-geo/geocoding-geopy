@@ -293,6 +293,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Geopy-Module">Geopy Module<a class="anchor-link" href="#Geopy-Module">&#182;</a></h3><p>Read Geopy's Documentation: <a href="https://geopy.readthedocs.org/en/1.10.0/#">https://geopy.readthedocs.org/en/1.10.0/#</a>.</p>
 <p>Get your Google API key at: <a href="https://developers.google.com/maps/documentation/geocoding/get-api-key#key">https://developers.google.com/maps/documentation/geocoding/get-api-key#key</a></p>
+<p>Remember to replace the key below with your own API key!</p>
 
 </div>
 </div>
@@ -345,8 +346,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Navigating-the-response-object">Navigating the response object<a class="anchor-link" href="#Navigating-the-response-object">&#182;</a></h4><p>What is a Location type? 
-Just try to see if object has .keys() method or can be navigated using an index.</p>
+<h4 id="Navigating-the-response-object">Navigating the response object<a class="anchor-link" href="#Navigating-the-response-object">&#182;</a></h4><p>What is a Location type?</p>
+<p>Experiment to see if has .keys() method or can be navigated using an index, etc response[0].</p>
 
 </div>
 </div>
@@ -385,18 +386,14 @@ Just try to see if object has .keys() method or can be navigated using an index.
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">#### Write function that only returns latitude &amp; longitude</span>
-</pre></div>
-
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Write-function-that-only-returns-latitude-&amp;-longitude">Write function that only returns latitude &amp; longitude<a class="anchor-link" href="#Write-function-that-only-returns-latitude-&amp;-longitude">&#182;</a></h4>
 </div>
 </div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -1297,7 +1294,8 @@ Just try to see if object has .keys() method or can be navigated using an index.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Map-your-geocoded-addresses!">Map your geocoded addresses!<a class="anchor-link" href="#Map-your-geocoded-addresses!">&#182;</a></h2>
+<h2 id="Working-with-GEOJSON/-Mapping-your-geocoded-addresses">Working with GEOJSON/ Mapping your geocoded addresses<a class="anchor-link" href="#Working-with-GEOJSON/-Mapping-your-geocoded-addresses">&#182;</a></h2><p>The following code creates the bart_coords.geojson and bart_coords.js files in the map/geojson folder. bart_coords.js is used by map/bartmap.html for our mapping of BART stations.</p>
+<h3 id="First-try-opening-map/bart_map.html,-which-will-be-blank.">First try opening map/bart_map.html, which will be blank.<a class="anchor-link" href="#First-try-opening-map/bart_map.html,-which-will-be-blank.">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -1306,7 +1304,7 @@ Just try to see if object has .keys() method or can be navigated using an index.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="GeoJSON">GeoJSON<a class="anchor-link" href="#GeoJSON">&#182;</a></h3>
+<h3 id="Create-a-feature-for-each-row-of-data-and-push-into-geo_data-object.">Create a feature for each row of data and push into geo_data object.<a class="anchor-link" href="#Create-a-feature-for-each-row-of-data-and-push-into-geo_data-object.">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -1335,7 +1333,7 @@ Just try to see if object has .keys() method or can be navigated using an index.
     <span class="c"># Add the feature into the GeoJSON wrapper</span>
     <span class="n">geo_data</span><span class="p">[</span><span class="s">&#39;features&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;map/geojson/bart_coords.geojson&#39;</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;map/geojson/bart_coords.geojson&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">geo_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
@@ -1344,15 +1342,24 @@ Just try to see if object has .keys() method or can be navigated using an index.
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Create-bart_coords.js-file">Create bart_coords.js file<a class="anchor-link" href="#Create-bart_coords.js-file">&#182;</a></h3>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;map/geojson/bart_coords.geojson&#39;</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+<div class=" highlight hl-ipython2"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;map/geojson/bart_coords.geojson&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">infile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;map/geojson/bart_coords.js&#39;</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;map/geojson/bart_coords.js&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
         <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;var bart = &#39;</span><span class="p">)</span>
         <span class="n">outfile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
@@ -1365,18 +1372,14 @@ Just try to see if object has .keys() method or can be navigated using an index.
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre> 
-</pre></div>
-
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Now-open-map/bart_map.html.-Your-spreadsheet-of-text-addresses-have-now-been-geocoded-and-mapped!">Now open map/bart_map.html. Your spreadsheet of text addresses have now been geocoded and mapped!<a class="anchor-link" href="#Now-open-map/bart_map.html.-Your-spreadsheet-of-text-addresses-have-now-been-geocoded-and-mapped!">&#182;</a></h3>
 </div>
 </div>
-</div>
-
 </div>
     </div>
   </div>
