@@ -13,6 +13,7 @@ Slides for the lecture can be viewed here: http://dlab-berkeley.github.io/geocod
 For the tutorial: 
 - To run intro-geocoding.ipynb as IPython notebook (interactive), download zip or git clone, navigate to extracted folder in terminal, and type "ipython notebook."
 - To view IPython notebook as static webpage (not interactive), go to: http://dlab-berkeley.github.io/geocoding-geopy/intro-geocoding.html
+- For those who prefer working with the code outside of IPython notebook, the code is available as a single Python file (intro-geocoding.py)
 
 Etherpad containing helpful links and code snippets across lecture and tutorial available at: http://tiny.cc/jqnq3x 
 
