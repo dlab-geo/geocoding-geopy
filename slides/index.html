@@ -1,0 +1,621 @@
+<!--
+slidedeck: A modification of the Google IO 2012 HTML5 slide template
+URL: https://github.com/rmcgibbo/slidedeck
+
+Based on https://github.com/francescolaffi/elastic-google-io-slides, and
+ultimately:
+
+Google IO 2012 HTML5 Slide Template
+Authors: Eric Bidelman <ebidel@gmail.com>
+         Luke Mahe <lukem@google.com>
+URL: https://code.google.com/p/io-2012-slides
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Introductory Geocoding</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+   <link rel="shortcut icon" href=" http://dlab.berkeley.edu/sites/all/themes/planetta/favicon.ico"/> 
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="all" href="theme/css/custom.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides", src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.14/require.min.js"></script>
+
+
+  <!-- MathJax support  -->
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    showProcessingMessages: false,
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      extensions: ["color.js"]
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <div style="display:hidden">
+  \[
+    \definecolor{data}{RGB}{18,110,213}
+    \definecolor{unknown}{RGB}{217,86,16}
+    \definecolor{learned}{RGB}{175,114,176}
+  \]
+  </div>
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+<slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+
+    <h1> Introductory Geocoding</h1>
+    <h2> Photon and geopy</h2>
+    <p> Juan Shishido, Andrew Chong <br/> School of Information<br/> GSR, D-Lab</p>
+  </hgroup>
+</slide>
+
+
+<slide  >
+  
+    <hgroup>
+      <h2>Purpose</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Obtain coordinates for: street addresses, intersections, place names, or zip codes</p>
+<p>Enables</p>
+<ul>
+<li>Mapping of addresses</li>
+<li>Linking with other geospatial data</li>
+<li>Spatial calculations, such as distances</li>
+</ul></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Process</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>In general, these are the steps in a geocoding project</p>
+<ul>
+<li>Identify needs</li>
+<li>Choose geocoder</li>
+<li>Preprocess data</li>
+<li>Geocode</li>
+<li>Verify output</li>
+<li>Postprocess data</li>
+</ul></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Considerations</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Think about</p>
+<ul>
+<li>Cost</li>
+<li>Geographic scope</li>
+<li>Output quality</li>
+<li>Speed</li>
+<li>Scale</li>
+</ul>
+<p>Two primary options: local and remote</p></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Local Options</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>In some cases, you may want or need to use a local geocoder</p>
+<ul>
+<li>Data is confidential or restricted use</li>
+<li>Too many addresses for remote</li>
+</ul>
+<p>Software options: ArcGIS, Postgres/PostGIS</p></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Remote Options</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Many options</p>
+<ul>
+<li>Google Maps Geocoding API</li>
+<li>SmartyStreets</li>
+<li>ArcGIS</li>
+<li>Nominatim</li>
+<li>DSTK</li>
+<li>Photon</li>
+<li>geopy</li>
+</ul></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Remote Options</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Vary based on</p>
+<ul>
+<li>Usage limits</li>
+<li>Methods of use</li>
+<li>Output quality</li>
+<li>Coverage</li>
+</ul></article>
+ 
+</slide>
+
+<slide class="segue dark nobackground" >
+  
+    <!-- <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside> -->
+    <hgroup class="auto-fadein">
+      <h2>Data Science Toolkit</h2>
+      <h3></h3>
+    </hgroup>
+  
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Google Maps Geocoding API</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p><a href="https://developers.google.com/maps/documentation/geocoding/intro" target="_blank">Google Maps Geocoding API </a> has high accuracy but has usage limits: </p>
+<ul>
+<li>2,500 free requests per day, 10 per second </li>
+<li>$0.50/1000 requests, up to 100,000 daily </li>
+</ul></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Street Address to Coordinates</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p><code>/street2coordinates</code></p>
+<p>Pass in the address as a parameter</p>
+<pre><code>https://maps.googleapis.com/maps/api/geocode/json?address=&lt;_your address_&gt;
+</code></pre></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Street Address to Coordinates</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p><code>/street2coordinates</code></p>
+<p>Pass in the address as a parameter</p>
+<pre><code>https://maps.googleapis.com/maps/api/geocode/json?address=
+1600 Amphitheatre Pkwy, Mountain View, CA
+</code></pre></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Street Address to Coordinates</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><pre class="prettyprint" data-lang="JSON">
+{ "results" : ...
+"geometry" : {
+            "location" : {
+               "lat" : 37.422245,
+               "lng" : -122.0840084
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 37.42359398029149,
+                  "lng" : -122.0826594197085
+               },
+               "southwest" : {
+                  "lat" : 37.4208960197085,
+                  "lng" : -122.0853573802915
+               }
+            }
+         }...
+}
+</pre></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Evaluate</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p><img height=auto width=50% src="figures/google_hq_dstk_coords.png"><img height=auto width=50% src="figures/google_hq_address.png"></p></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Try It</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><pre><code>https://maps.googleapis.com/maps/api/geocode/json?address=&lt;_your address_&gt;
+</code></pre>
+<p>What happens when</p>
+<ul>
+<li>State is omitted</li>
+<li>Zip code is omitted</li>
+<li>Commas are removed</li>
+<li>Mix case</li>
+</ul></article>
+ 
+</slide>
+
+<slide class="segue dark nobackground" >
+  
+    <!-- <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside> -->
+    <hgroup class="auto-fadein">
+      <h2>Photon</h2>
+      <h3></h3>
+    </hgroup>
+  
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Photon</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p><a href="http://photon.komoot.de/" target="_blank">Photon</a> is free and open source</p>
+<ul>
+<li>Uses <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> data</li>
+<li>Worldwide coverage</li>
+<li>Multilingual search</li>
+<li>Typo tolerance</li>
+<li>Fast &amp; scalable</li>
+</ul>
+<p>However, "extensive usage will be throttled"</p></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Photon API</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Search</p>
+<pre><code>photon.komoot.de/api/?q=berkeley
+</code></pre>
+<p>Limit number of results</p>
+<pre><code>photon.komoot.de/api/?q=berkeley&amp;limit=1
+</code></pre>
+<p>Preferred language</p>
+<pre><code>photon.komoot.de/api/?q=berkeley&amp;lang=fr
+</code></pre></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Photon API</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Pass in the address as a parameter</p>
+<pre><code>photon.komoot.de/api/?q=
+1600 Amphitheatre Pkwy, Mountain View, CA
+</code></pre></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Photon API</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><pre class="prettyprint" data-lang="JSON">
+{"features": [{
+  "properties": {
+    "osm_key":"office",
+    "street":"Amphitheatre Parkway",
+    "name":"Google Headquaters",
+    "osm_id":2192620021,
+    "osm_type":"N",
+    "osm_value":"commercial",
+  },
+  "type":"Feature",
+  "geometry": {
+    "type":"Point",
+    <b>"coordinates":[-122.0850862,37.4228139]</b>
+  }
+}],
+"type":"FeatureCollection"}
+</pre>
+
+<p><a href="http://photon.komoot.de/api/?q=1600%20Amphitheatre%20Pkwy,%20Mountain%20View,%20CA" target="_blank">Full output</a></p></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Evaluate</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p><img height=auto width=50% src="figures/google_hq_photon_coords.png"><img height=auto width=50% src="figures/google_hq_address.png"></p></article>
+ 
+</slide>
+
+<slide class="segue dark nobackground" >
+  
+    <!-- <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside> -->
+    <hgroup class="auto-fadein">
+      <h2>Bonus: geopy</h2>
+      <h3></h3>
+    </hgroup>
+  
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>geopy</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Geocoding with Python</p>
+<p>Access to many geocoding services</p>
+<ul>
+<li>OpenStreetMap Nominatim</li>
+<li>ESRI ArcGIS</li>
+<li>Google Geocoding API</li>
+<li>Baidu Maps</li>
+<li>Bing Maps</li>
+</ul>
+<p><a href="https://github.com/geopy/geopy" target="_blank">geopy on GitHub</a></p></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>geopy</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Example from the docs</p>
+<pre><code>$ pip install geopy
+</code></pre>
+<pre class="prettyprint" data-lang="python">
+>>> import geopy
+>>> from geopy.geocoders import Nominatim
+>>> geolocator = Nominatim()
+>>> location = geolocator.geocode("1600 Amphitheatre Pkwy, Mountain View, CA")
+>>> print((location.latitude, location.longitude))
+<b>(37.4228139, -122.0850862)</b>
+</pre>
+
+<p>You can also reverse geocode, calculate distances, and more</p>
+<p>Check out the geopy <a href="http://geopy.readthedocs.org/en/latest/" target="_blank">documentation</a></p></article>
+ 
+</slide>
+
+<slide class="segue dark nobackground" >
+  
+    <!-- <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside> -->
+    <hgroup class="auto-fadein">
+      <h2>JSON</h2>
+      <h3></h3>
+    </hgroup>
+  
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>JSON Output</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>JavaScript Object Notation</p>
+<ul>
+<li>Format typically used to send data between a server and web app</li>
+</ul>
+<p>Convert JSON to CSV</p>
+<ul>
+<li>Write a script in Python, R, etc.</li>
+<li>Use other modules, e.g., <code>pandas</code></li>
+</ul></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Manipulating the JSON object in Python</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Go to Photon API <a href=" http://photon.komoot.de/api/?q=1600%20Amphitheatre%20Pkwy,%20Mountain%20View,%20CA" target="_blank">link</a>and paste output in command below: </p>
+<pre class="prettyprint" data-lang="python">
+
+import json
+
+json_str = '[output from Photon API]' 
+python_obj = json.loads(json_obj)
+
+# navigating dict by key 
+type(python_obj)
+python_obj['features']
+
+# navigating dict by list 
+type(python_obj['features'])
+python_obj['features'][0]
+
+</pre></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Problems in Reference Data</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Varies over services (remote &amp; local)</p>
+<ul>
+<li>Incorrect street ranges, inaccurate or low quality features </li>
+<li>Inaccurate feature attributes</li>
+</ul>
+<p>Year matching between geocoded and reference data</p>
+<ul>
+<li>Missing streets</li>
+<li>Address changes</li>
+</ul></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Verify Output</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Ways to assess quality</p>
+<ul>
+<li>Compare input street name to <code>street_name</code></li>
+<li>Count missing values</li>
+<li>Test against sub-sample with known or high-quality coordinates </li>
+</ul>
+<p>Because results are based on an underlying database or interpolation method, there will be variation in coordinate quality. In cases where the results are not good enough, consider using another service for those addresses.</p></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Postprocess</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>To GeoJSON</p>
+<p>Link to Census Blocks</p>
+<pre><code>http://data.fcc.gov/api/block/find?latitude=&lt;_latitude_&gt;&amp;longitude=&lt;_longitude_&gt;
+</code></pre>
+<p>Block FIPS="<b>060855046011175</b>"</p>
+<p>The first two characters (<b>06</b>) indicate the <b>state</b> (CA), the next three (<b>085</b>) indicate the <b>county</b> (Alameda), the next 6 indicate the <b>census tract</b> (<b>5046.01</b>) and the last four characters indicates the census <b>block</b> group and block number (<b>1175</b>).  The first digit of the block identifies the block group.</p></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Mapping</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Several options</p>
+<ul>
+<li>Leaflet</li>
+<li>geojson.io</li>
+<li>CartoDB</li>
+<li>ArcGIS/QGIS</li>
+<li>GeoCanvas</li>
+<li>Python</li>
+</ul></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Best Practices</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Preprocess data</p>
+<ul>
+<li>Formatting</li>
+<li>Components</li>
+</ul>
+<p>Sample and test</p>
+<p>Use multiple sources</p>
+<p>Map results to verify</p></article>
+ 
+</slide>
+
+<slide  >
+  
+    <hgroup>
+      <h2>Tutorial</h2>
+      <h3></h3>
+    </hgroup>
+    <article ><p>Clone the repo or download the zip file from:</p>
+<p><a href="https://github.com/andrewqchong/geocoding-workshop" target="_blank">https://github.com/andrewqchong/geocoding-workshop</a></p>
+<p>Navigate to the directory and start an IPython notebook instance</p>
+<pre><code>$ ipython notebook
+</code></pre>
+<p>Let's get to work</p>
+<p>We'll create a map of the 44 BART stations in the Bay Area</p></article>
+ 
+</slide>
+
+
+<slide class="thank-you-slide segue nobackground">
+  <!-- <aside class="gdbar right"><img src="images/google_developers_icon_128.png"></aside> -->
+  <article class="flexbox vleft auto-fadein">
+    <h2> Thanks!</h2>
+    <p></p>
+  </article>
+  <p data-config-contact class="auto-fadein"> <a href="http://people.ischool.berkeley.edu/~juanshishido/">Web</a><br/> <a href="https://github.com/juanshishido">GitHub</a><br/> <a href="http://www.linkedin.com/in/juanshishido/">LinkedIn</a></p>
+  </p>
+</slide>
+
+<slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>

@@ -1,0 +1,4 @@
+pandas
+geopy
+ipython 
+ipython notebook
