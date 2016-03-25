@@ -52,8 +52,10 @@
 .highlight .err { border: 1px solid #FF0000 } /* Error */
 .highlight .k { color: #008000; font-weight: bold } /* Keyword */
 .highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
 .highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
 .highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
 .highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
 .highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
 .highlight .gd { color: #A00000 } /* Generic.Deleted */
@@ -183,7 +185,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Andrew Chong</p>
+<p>Juan Shishido, Andrew Chong, Patty Frontiera</p>
 <p>Adapted from Juan Shishido's tutorial at: <a href="http://people.ischool.berkeley.edu/~juanshishido/geocoding-workshop/intro-geocoding.html">http://people.ischool.berkeley.edu/~juanshishido/geocoding-workshop/intro-geocoding.html</a></p>
 <p>School of Information</p>
 <p>GSR, D-Lab</p>
@@ -202,14 +204,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">json</span>
+<div class=" highlight hl-ipython3"><pre><span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">geopy</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
 </pre></div>
 
 </div>
@@ -222,7 +224,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Using-the-APIs">Using the APIs<a class="anchor-link" href="#Using-the-APIs">&#182;</a></h2>
+<h2 id="Using-A-Geocoding-APIs">Using A Geocoding APIs<a class="anchor-link" href="#Using-A-Geocoding-APIs">&#182;</a></h2><p>There are a number of Geocoding APIs that you can use to geocode place names and addresses. To use one of these you create code like that shown below. Each geocoding service may have different inputs and outputs.</p>
+
 </div>
 </div>
 </div>
@@ -231,57 +234,28 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Photon-API">Photon API<a class="anchor-link" href="#Photon-API">&#182;</a></h3>
+<h3 id="Photon-API">Photon API<a class="anchor-link" href="#Photon-API">&#182;</a></h3><p>Here is an example of geocoding with the Photon API.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">get_geocoded_object_photon</span><span class="p">(</span><span class="n">address</span><span class="p">):</span>
-    <span class="c"># URL</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://photon.komoot.de/api/?q=&#39;</span> <span class="o">+</span> <span class="n">address</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="s">&#39;+&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">get_geocoded_object_photon</span><span class="p">(</span><span class="n">address</span><span class="p">):</span>
+    <span class="c1"># URL</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://photon.komoot.de/api/?q=&#39;</span> <span class="o">+</span> <span class="n">address</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
     
-    <span class="c"># Response</span>
+    <span class="c1"># Response</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 
-<span class="n">get_geocoded_object_photon</span><span class="p">(</span><span class="s">&quot;1600 Amphitheatre Pkwy, Mountain View, CA&quot;</span><span class="p">)</span>
+<span class="n">get_geocoded_object_photon</span><span class="p">(</span><span class="s2">&quot;1600 Amphitheatre Pkwy, Mountain View, CA&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{u&apos;features&apos;: [{u&apos;geometry&apos;: {u&apos;coordinates&apos;: [-122.0850862, 37.4228139],
-    u&apos;type&apos;: u&apos;Point&apos;},
-   u&apos;properties&apos;: {u&apos;city&apos;: u&apos;Mountain View&apos;,
-    u&apos;country&apos;: u&apos;United States of America&apos;,
-    u&apos;housenumber&apos;: u&apos;1600&apos;,
-    u&apos;name&apos;: u&apos;Google Headquaters&apos;,
-    u&apos;osm_id&apos;: 2192620021,
-    u&apos;osm_key&apos;: u&apos;office&apos;,
-    u&apos;osm_type&apos;: u&apos;N&apos;,
-    u&apos;osm_value&apos;: u&apos;commercial&apos;,
-    u&apos;postcode&apos;: u&apos;94043&apos;,
-    u&apos;state&apos;: u&apos;California&apos;,
-    u&apos;street&apos;: u&apos;Amphitheatre Parkway&apos;},
-   u&apos;type&apos;: u&apos;Feature&apos;}],
- u&apos;type&apos;: u&apos;FeatureCollection&apos;}</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -291,9 +265,19 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Geopy-Module">Geopy Module<a class="anchor-link" href="#Geopy-Module">&#182;</a></h3><p>Read Geopy's Documentation: <a href="https://geopy.readthedocs.org/en/1.10.0/#">https://geopy.readthedocs.org/en/1.10.0/#</a>.</p>
-<p>Get your Google API key at: <a href="https://developers.google.com/maps/documentation/geocoding/get-api-key#key">https://developers.google.com/maps/documentation/geocoding/get-api-key#key</a></p>
-<p>Remember to replace the key below with your own API key!</p>
+<h2 id="Geopy-Module">Geopy Module<a class="anchor-link" href="#Geopy-Module">&#182;</a></h2><p>The Geopy Module makes it easy to try a number of different geocoding APIs using the same syntax. It is updated frequently so it is also a good way to keep abreast of the popular geocoding services.</p>
+<p>You can read Geopy's Documentation here: <a href="https://geopy.readthedocs.org/en/1.10.0/#">https://geopy.readthedocs.org/en/1.10.0/#</a>.</p>
+<p>We will use Geopy to geocode addresses with the Google Geocoding Service.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Google-Geocoding-API">Google Geocoding API<a class="anchor-link" href="#Google-Geocoding-API">&#182;</a></h3><p>The Google Geocoder and is extremely popular. It is very accurate for two reasons. It has a robust and sophisticated address parser <strong>and</strong> a great reference database of streets, parcels, and properties. However, it limits you to <strong>2,500</strong> free address geocodes per day. Moreover, you need to read the <a href="https://developers.google.com/maps/documentation/geocoding/usage-limits">Google Geocoder terms of use</a> to make sure that you do not violate them.</p>
 
 </div>
 </div>
@@ -309,34 +293,18 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">my_api_key</span> <span class="o">=</span> <span class="s">&quot;AIzaSyAMxZlb9Q4TkIDdhFJvDZ5mEMbobszayDA&quot;</span>
-<span class="n">google_geocoder</span> <span class="o">=</span> <span class="n">geopy</span><span class="o">.</span><span class="n">geocoders</span><span class="o">.</span><span class="n">GoogleV3</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">my_api_key</span><span class="p">)</span>
-<span class="n">arcgis_geocoder</span> <span class="o">=</span> <span class="n">geopy</span><span class="o">.</span><span class="n">geocoders</span><span class="o">.</span><span class="n">ArcGIS</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span class="c1"># Create a geocoding object</span>
+<span class="n">google_geocoder</span> <span class="o">=</span> <span class="n">geopy</span><span class="o">.</span><span class="n">geocoders</span><span class="o">.</span><span class="n">GoogleV3</span><span class="p">()</span>
 
-<span class="n">response</span> <span class="o">=</span> <span class="n">google_geocoder</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span><span class="s">&quot;1600 Amphitheatre Pkwy, Mountain View, CA&quot;</span><span class="p">,</span> <span class="n">google_geocoder</span><span class="p">)</span> 
+<span class="c1"># Geocode one address with this geocoder</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">google_geocoder</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span><span class="s2">&quot;1600 Amphitheatre Pkwy, Mountain View, CA&quot;</span><span class="p">,</span> <span class="n">google_geocoder</span><span class="p">)</span> 
 <span class="nb">type</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>geopy.location.Location</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -354,10 +322,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># response.keys()</span>
+<div class=" highlight hl-ipython3"><pre><span class="c1"># response.keys()</span>
 
 <span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -366,22 +334,6 @@ div#notebook {
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>-122.0840084</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -397,35 +349,20 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">get_coords_geopy</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">geocoder_instance</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">get_coords_geopy</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">geocoder_instance</span><span class="p">):</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">geocoder_instance</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span><span class="n">address</span><span class="p">)</span> 
     <span class="n">lat_lon</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">lat_lon</span>
 
-<span class="n">coords</span> <span class="o">=</span> <span class="n">get_coords_geopy</span><span class="p">(</span><span class="s">&quot;1600 Amphitheatre Pkwy, Mountain View, CA&quot;</span><span class="p">,</span> <span class="n">google_geocoder</span><span class="p">)</span>
+<span class="c1"># Now try it</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">get_coords_geopy</span><span class="p">(</span><span class="s2">&quot;1600 Amphitheatre Pkwy, Mountain View, CA&quot;</span><span class="p">,</span> <span class="n">google_geocoder</span><span class="p">)</span>
 <span class="n">coords</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(37.422245, -122.0840084)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -450,31 +387,16 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">bart</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">&quot;data/bartstations.csv&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">bart</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/bartstations.csv&quot;</span><span class="p">)</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">bart</span><span class="p">)</span>
 <span class="n">bart</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+ 
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Index([u&apos;address&apos;, u&apos;station_name&apos;], dtype=&apos;object&apos;)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -491,12 +413,13 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">bart</span><span class="p">[</span><span class="s">&#39;weekday_visitors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">*</span><span class="n">bart</span><span class="o">.</span><span class="n">index</span>
-<span class="n">bart</span><span class="p">[</span><span class="s">&#39;weekend_visitors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2000</span><span class="o">*</span><span class="n">bart</span><span class="o">.</span><span class="n">index</span>
-<span class="n">bart</span><span class="p">[</span><span class="s">&#39;weekly_visitors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bart</span><span class="p">[</span><span class="s">&#39;weekday_visitors&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">bart</span><span class="p">[</span><span class="s">&#39;weekend_visitors&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">bart</span><span class="p">[</span><span class="s1">&#39;weekday_visitors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">*</span><span class="n">bart</span><span class="o">.</span><span class="n">index</span>
+<span class="n">bart</span><span class="p">[</span><span class="s1">&#39;weekend_visitors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2000</span><span class="o">*</span><span class="n">bart</span><span class="o">.</span><span class="n">index</span>
+<span class="n">bart</span><span class="p">[</span><span class="s1">&#39;weekly_visitors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bart</span><span class="p">[</span><span class="s1">&#39;weekday_visitors&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">bart</span><span class="p">[</span><span class="s1">&#39;weekend_visitors&#39;</span><span class="p">]</span>
+<span class="n">bart</span>
 </pre></div>
 
 </div>
@@ -515,453 +438,17 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">one_address</span> <span class="o">=</span> <span class="s">&quot;1245 Broadway, Oakland, CA 94612&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">one_address</span> <span class="o">=</span> <span class="s2">&quot;1245 Broadway, Oakland, CA 94612&quot;</span>
 <span class="n">one_address_caps</span> <span class="o">=</span> <span class="n">one_address</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
-<span class="n">bart</span><span class="p">[</span><span class="s">&#39;address_in_CAPS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bart</span><span class="p">[</span><span class="s">&#39;address&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+<span class="n">bart</span><span class="p">[</span><span class="s1">&#39;address_in_CAPS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bart</span><span class="p">[</span><span class="s1">&#39;address&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
 <span class="n">bart</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>address</th>
-      <th>station_name</th>
-      <th>weekday_visitors</th>
-      <th>weekend_visitors</th>
-      <th>weekly_visitors</th>
-      <th>address_in_CAPS</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1245 Broadway, Oakland, CA 94612</td>
-      <td>12th St. Oakland City Center</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1245 BROADWAY, OAKLAND, CA 94612</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2000 Mission Street, San Francisco, CA 94110</td>
-      <td>16th St. Mission (SF)</td>
-      <td>1000</td>
-      <td>2000</td>
-      <td>3000</td>
-      <td>2000 MISSION STREET, SAN FRANCISCO, CA 94110</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1900 Broadway, Oakland, CA 94612</td>
-      <td>19th St. Oakland</td>
-      <td>2000</td>
-      <td>4000</td>
-      <td>6000</td>
-      <td>1900 BROADWAY, OAKLAND, CA 94612</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2800 Mission Street, San Francisco, CA 94110</td>
-      <td>24th St. Mission (SF)</td>
-      <td>3000</td>
-      <td>6000</td>
-      <td>9000</td>
-      <td>2800 MISSION STREET, SAN FRANCISCO, CA 94110</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>3100 Adeline Street, Berkeley, CA 94703</td>
-      <td>Ashby (Berkeley)</td>
-      <td>4000</td>
-      <td>8000</td>
-      <td>12000</td>
-      <td>3100 ADELINE STREET, BERKELEY, CA 94703</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>401 Geneva Avenue, San Francisco, CA 94112</td>
-      <td>Balboa Park (SF)</td>
-      <td>5000</td>
-      <td>10000</td>
-      <td>15000</td>
-      <td>401 GENEVA AVENUE, SAN FRANCISCO, CA 94112</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>15242 Hesperian Blvd., San Leandro, CA 94578</td>
-      <td>Bay Fair (San Leandro)</td>
-      <td>6000</td>
-      <td>12000</td>
-      <td>18000</td>
-      <td>15242 HESPERIAN BLVD., SAN LEANDRO, CA 94578</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>3301 Norbridge Dr., Castro Valley, CA 94546</td>
-      <td>Castro Valley</td>
-      <td>7000</td>
-      <td>14000</td>
-      <td>21000</td>
-      <td>3301 NORBRIDGE DR., CASTRO VALLEY, CA 94546</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>1150 Market Street, San Francisco, CA 94102</td>
-      <td>Civic Center/UN Plaza (SF)</td>
-      <td>8000</td>
-      <td>16000</td>
-      <td>24000</td>
-      <td>1150 MARKET STREET, SAN FRANCISCO, CA 94102</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>7200 San Leandro St., Oakland, CA 94621</td>
-      <td>Coliseum</td>
-      <td>9000</td>
-      <td>18000</td>
-      <td>27000</td>
-      <td>7200 SAN LEANDRO ST., OAKLAND, CA 94621</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>365 D Street, Colma, CA 94014</td>
-      <td>Colma</td>
-      <td>10000</td>
-      <td>20000</td>
-      <td>30000</td>
-      <td>365 D STREET, COLMA, CA 94014</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>1451 Oakland Avenue, Concord, CA 94520</td>
-      <td>Concord</td>
-      <td>11000</td>
-      <td>22000</td>
-      <td>33000</td>
-      <td>1451 OAKLAND AVENUE, CONCORD, CA 94520</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>500 John Daly Blvd., Daly City, CA 94014</td>
-      <td>Daly City</td>
-      <td>12000</td>
-      <td>24000</td>
-      <td>36000</td>
-      <td>500 JOHN DALY BLVD., DALY CITY, CA 94014</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>2160 Shattuck Avenue, Berkeley, CA 94704</td>
-      <td>Downtown Berkeley</td>
-      <td>13000</td>
-      <td>26000</td>
-      <td>39000</td>
-      <td>2160 SHATTUCK AVENUE, BERKELEY, CA 94704</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>5801 Owens Dr., Pleasanton, CA 94588</td>
-      <td>Dublin/Pleasanton</td>
-      <td>14000</td>
-      <td>28000</td>
-      <td>42000</td>
-      <td>5801 OWENS DR., PLEASANTON, CA 94588</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>6400 Cutting Blvd., El Cerrito, CA 94530</td>
-      <td>El Cerrito del Norte</td>
-      <td>15000</td>
-      <td>30000</td>
-      <td>45000</td>
-      <td>6400 CUTTING BLVD., EL CERRITO, CA 94530</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>6699 Fairmount Avenue, El Cerrito, CA 94530</td>
-      <td>El Cerrito Plaza</td>
-      <td>16000</td>
-      <td>32000</td>
-      <td>48000</td>
-      <td>6699 FAIRMOUNT AVENUE, EL CERRITO, CA 94530</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>298 Market Street, San Francisco, CA 94111</td>
-      <td>Embarcadero (SF)</td>
-      <td>17000</td>
-      <td>34000</td>
-      <td>51000</td>
-      <td>298 MARKET STREET, SAN FRANCISCO, CA 94111</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>2000 BART Way, Fremont, CA 94536</td>
-      <td>Fremont</td>
-      <td>18000</td>
-      <td>36000</td>
-      <td>54000</td>
-      <td>2000 BART WAY, FREMONT, CA 94536</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>3401 East 12th Street, Oakland, CA 94601</td>
-      <td>Fruitvale (Oakland)</td>
-      <td>19000</td>
-      <td>38000</td>
-      <td>57000</td>
-      <td>3401 EAST 12TH STREET, OAKLAND, CA 94601</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>2901 Diamond Street, San Francisco, CA 94131</td>
-      <td>Glen Park (SF)</td>
-      <td>20000</td>
-      <td>40000</td>
-      <td>60000</td>
-      <td>2901 DIAMOND STREET, SAN FRANCISCO, CA 94131</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>699 B Street, Hayward, CA 94541</td>
-      <td>Hayward</td>
-      <td>21000</td>
-      <td>42000</td>
-      <td>63000</td>
-      <td>699 B STREET, HAYWARD, CA 94541</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>3601 Deer Hill Road, Lafayette, CA 94549</td>
-      <td>Lafayette</td>
-      <td>22000</td>
-      <td>44000</td>
-      <td>66000</td>
-      <td>3601 DEER HILL ROAD, LAFAYETTE, CA 94549</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>800 Madison Street, Oakland, CA 94607</td>
-      <td>Lake Merritt (Oakland)</td>
-      <td>23000</td>
-      <td>46000</td>
-      <td>69000</td>
-      <td>800 MADISON STREET, OAKLAND, CA 94607</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>555 40th Street, Oakland, CA 94609</td>
-      <td>MacArthur (Oakland)</td>
-      <td>24000</td>
-      <td>48000</td>
-      <td>72000</td>
-      <td>555 40TH STREET, OAKLAND, CA 94609</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>200 North Rollins Road, Millbrae, CA 94030</td>
-      <td>Millbrae</td>
-      <td>25000</td>
-      <td>50000</td>
-      <td>75000</td>
-      <td>200 NORTH ROLLINS ROAD, MILLBRAE, CA 94030</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>598 Market Street, San Francisco, CA 94104</td>
-      <td>Montgomery St. (SF)</td>
-      <td>26000</td>
-      <td>52000</td>
-      <td>78000</td>
-      <td>598 MARKET STREET, SAN FRANCISCO, CA 94104</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>1750 Sacramento Street, Berkeley, CA 94702</td>
-      <td>North Berkeley</td>
-      <td>27000</td>
-      <td>54000</td>
-      <td>81000</td>
-      <td>1750 SACRAMENTO STREET, BERKELEY, CA 94702</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>3700 Port Chicago Highway, Concord, CA 94520</td>
-      <td>North Concord/Martinez</td>
-      <td>28000</td>
-      <td>56000</td>
-      <td>84000</td>
-      <td>3700 PORT CHICAGO HIGHWAY, CONCORD, CA 94520</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>4 Airport Drive, Oakland, CA 94621</td>
-      <td>Oakland Int'l Airport</td>
-      <td>29000</td>
-      <td>58000</td>
-      <td>87000</td>
-      <td>4 AIRPORT DRIVE, OAKLAND, CA 94621</td>
-    </tr>
-    <tr>
-      <th>30</th>
-      <td>11 Camino Pablo, Orinda, CA 94563</td>
-      <td>Orinda</td>
-      <td>30000</td>
-      <td>60000</td>
-      <td>90000</td>
-      <td>11 CAMINO PABLO, ORINDA, CA 94563</td>
-    </tr>
-    <tr>
-      <th>31</th>
-      <td>1700 West Leland Road, Pittsburg, CA 94565</td>
-      <td>Pittsburg/Bay Point</td>
-      <td>31000</td>
-      <td>62000</td>
-      <td>93000</td>
-      <td>1700 WEST LELAND ROAD, PITTSBURG, CA 94565</td>
-    </tr>
-    <tr>
-      <th>32</th>
-      <td>1365 Treat Blvd., Walnut Creek, CA 94597</td>
-      <td>Pleasant Hill/Contra Costa Centre</td>
-      <td>32000</td>
-      <td>64000</td>
-      <td>96000</td>
-      <td>1365 TREAT BLVD., WALNUT CREEK, CA 94597</td>
-    </tr>
-    <tr>
-      <th>33</th>
-      <td>899 Market Street, San Francisco, CA 94102</td>
-      <td>Powell St. (SF)</td>
-      <td>33000</td>
-      <td>66000</td>
-      <td>99000</td>
-      <td>899 MARKET STREET, SAN FRANCISCO, CA 94102</td>
-    </tr>
-    <tr>
-      <th>34</th>
-      <td>1700 Nevin Avenue, Richmond, CA 94801</td>
-      <td>Richmond</td>
-      <td>34000</td>
-      <td>68000</td>
-      <td>102000</td>
-      <td>1700 NEVIN AVENUE, RICHMOND, CA 94801</td>
-    </tr>
-    <tr>
-      <th>35</th>
-      <td>5660 College Avenue, Oakland, CA 94618</td>
-      <td>Rockridge (Oakland)</td>
-      <td>35000</td>
-      <td>70000</td>
-      <td>105000</td>
-      <td>5660 COLLEGE AVENUE, OAKLAND, CA 94618</td>
-    </tr>
-    <tr>
-      <th>36</th>
-      <td>1151 Huntington Avenue, San Bruno, CA 94066</td>
-      <td>San Bruno</td>
-      <td>36000</td>
-      <td>72000</td>
-      <td>108000</td>
-      <td>1151 HUNTINGTON AVENUE, SAN BRUNO, CA 94066</td>
-    </tr>
-    <tr>
-      <th>37</th>
-      <td>International Terminal, Level 3, San Francisco...</td>
-      <td>San Francisco Int'l Airport</td>
-      <td>37000</td>
-      <td>74000</td>
-      <td>111000</td>
-      <td>INTERNATIONAL TERMINAL, LEVEL 3, SAN FRANCISCO...</td>
-    </tr>
-    <tr>
-      <th>38</th>
-      <td>1401 San Leandro Blvd., San Leandro, CA 94577</td>
-      <td>San Leandro</td>
-      <td>38000</td>
-      <td>76000</td>
-      <td>114000</td>
-      <td>1401 SAN LEANDRO BLVD., SAN LEANDRO, CA 94577</td>
-    </tr>
-    <tr>
-      <th>39</th>
-      <td>28601 Dixon Street, Hayward, CA 94544</td>
-      <td>South Hayward</td>
-      <td>39000</td>
-      <td>78000</td>
-      <td>117000</td>
-      <td>28601 DIXON STREET, HAYWARD, CA 94544</td>
-    </tr>
-    <tr>
-      <th>40</th>
-      <td>1333 Mission Road, South San Francisco, CA 94080</td>
-      <td>South San Francisco</td>
-      <td>40000</td>
-      <td>80000</td>
-      <td>120000</td>
-      <td>1333 MISSION ROAD, SOUTH SAN FRANCISCO, CA 94080</td>
-    </tr>
-    <tr>
-      <th>41</th>
-      <td>10 Union Square, Union City, CA 94587</td>
-      <td>Union City</td>
-      <td>41000</td>
-      <td>82000</td>
-      <td>123000</td>
-      <td>10 UNION SQUARE, UNION CITY, CA 94587</td>
-    </tr>
-    <tr>
-      <th>42</th>
-      <td>200 Ygnacio Valley Road, Walnut Creek, CA 94596</td>
-      <td>Walnut Creek</td>
-      <td>42000</td>
-      <td>84000</td>
-      <td>126000</td>
-      <td>200 YGNACIO VALLEY ROAD, WALNUT CREEK, CA 94596</td>
-    </tr>
-    <tr>
-      <th>43</th>
-      <td>6501 Golden Gate Drive, Dublin, CA 94568</td>
-      <td>West Dublin/Pleasanton</td>
-      <td>43000</td>
-      <td>86000</td>
-      <td>129000</td>
-      <td>6501 GOLDEN GATE DRIVE, DUBLIN, CA 94568</td>
-    </tr>
-    <tr>
-      <th>44</th>
-      <td>1451 7th Street, Oakland, CA 94607</td>
-      <td>West Oakland</td>
-      <td>44000</td>
-      <td>88000</td>
-      <td>132000</td>
-      <td>1451 7TH STREET, OAKLAND, CA 94607</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -977,314 +464,16 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">google_geocoder</span> <span class="o">=</span> <span class="n">geopy</span><span class="o">.</span><span class="n">geocoders</span><span class="o">.</span><span class="n">GoogleV3</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">my_api_key</span><span class="p">)</span>
-<span class="n">bart</span><span class="p">[</span><span class="s">&#39;latitude&#39;</span><span class="p">],</span> <span class="n">bart</span><span class="p">[</span><span class="s">&#39;longitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">bart</span><span class="p">[</span><span class="s">&#39;address&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_coords_geopy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">google_geocoder</span><span class="p">)))</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">google_geocoder</span> <span class="o">=</span> <span class="n">geopy</span><span class="o">.</span><span class="n">geocoders</span><span class="o">.</span><span class="n">GoogleV3</span><span class="p">()</span>
+<span class="n">bart</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">],</span> <span class="n">bart</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">bart</span><span class="p">[</span><span class="s1">&#39;address&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">get_coords_geopy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">google_geocoder</span><span class="p">)))</span>
 
-<span class="n">bart</span><span class="p">[[</span><span class="s">&#39;station_name&#39;</span><span class="p">,</span> <span class="s">&#39;latitude&#39;</span><span class="p">,</span> <span class="s">&#39;longitude&#39;</span><span class="p">]]</span>
+<span class="n">bart</span><span class="p">[[</span><span class="s1">&#39;station_name&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">]]</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>station_name</th>
-      <th>latitude</th>
-      <th>longitude</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>12th St. Oakland City Center</td>
-      <td>37.803390</td>
-      <td>-122.271796</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>16th St. Mission (SF)</td>
-      <td>37.764789</td>
-      <td>-122.419959</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>19th St. Oakland</td>
-      <td>37.807820</td>
-      <td>-122.268666</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>24th St. Mission (SF)</td>
-      <td>37.751992</td>
-      <td>-122.418722</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Ashby (Berkeley)</td>
-      <td>37.852883</td>
-      <td>-122.269977</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Balboa Park (SF)</td>
-      <td>37.721500</td>
-      <td>-122.447492</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Bay Fair (San Leandro)</td>
-      <td>37.696980</td>
-      <td>-122.126499</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Castro Valley</td>
-      <td>37.691770</td>
-      <td>-122.074886</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Civic Center/UN Plaza (SF)</td>
-      <td>37.780096</td>
-      <td>-122.412686</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Coliseum</td>
-      <td>37.753416</td>
-      <td>-122.196808</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>Colma</td>
-      <td>37.684516</td>
-      <td>-122.466346</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>Concord</td>
-      <td>37.974199</td>
-      <td>-122.030293</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>Daly City</td>
-      <td>37.706131</td>
-      <td>-122.468900</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>Downtown Berkeley</td>
-      <td>37.870059</td>
-      <td>-122.268054</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>Dublin/Pleasanton</td>
-      <td>37.700654</td>
-      <td>-121.896780</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>El Cerrito del Norte</td>
-      <td>37.925167</td>
-      <td>-122.316882</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>El Cerrito Plaza</td>
-      <td>37.902632</td>
-      <td>-122.298860</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>Embarcadero (SF)</td>
-      <td>37.792879</td>
-      <td>-122.397087</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>Fremont</td>
-      <td>37.557385</td>
-      <td>-121.976762</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>Fruitvale (Oakland)</td>
-      <td>37.775113</td>
-      <td>-122.224186</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>Glen Park (SF)</td>
-      <td>37.733099</td>
-      <td>-122.434037</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>Hayward</td>
-      <td>37.669840</td>
-      <td>-122.087077</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>Lafayette</td>
-      <td>37.894699</td>
-      <td>-122.124125</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>Lake Merritt (Oakland)</td>
-      <td>37.797330</td>
-      <td>-122.265241</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>MacArthur (Oakland)</td>
-      <td>37.829155</td>
-      <td>-122.267037</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>Millbrae</td>
-      <td>37.600377</td>
-      <td>-122.387500</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>Montgomery St. (SF)</td>
-      <td>37.789131</td>
-      <td>-122.401935</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>North Berkeley</td>
-      <td>37.873967</td>
-      <td>-122.283399</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>North Concord/Martinez</td>
-      <td>38.003108</td>
-      <td>-122.024333</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>Oakland Int'l Airport</td>
-      <td>37.711946</td>
-      <td>-122.212065</td>
-    </tr>
-    <tr>
-      <th>30</th>
-      <td>Orinda</td>
-      <td>37.878401</td>
-      <td>-122.183760</td>
-    </tr>
-    <tr>
-      <th>31</th>
-      <td>Pittsburg/Bay Point</td>
-      <td>38.015514</td>
-      <td>-121.945624</td>
-    </tr>
-    <tr>
-      <th>32</th>
-      <td>Pleasant Hill/Contra Costa Centre</td>
-      <td>37.928477</td>
-      <td>-122.055928</td>
-    </tr>
-    <tr>
-      <th>33</th>
-      <td>Powell St. (SF)</td>
-      <td>37.784999</td>
-      <td>-122.406863</td>
-    </tr>
-    <tr>
-      <th>34</th>
-      <td>Richmond</td>
-      <td>37.936816</td>
-      <td>-122.353059</td>
-    </tr>
-    <tr>
-      <th>35</th>
-      <td>Rockridge (Oakland)</td>
-      <td>37.844770</td>
-      <td>-122.251206</td>
-    </tr>
-    <tr>
-      <th>36</th>
-      <td>San Bruno</td>
-      <td>37.637782</td>
-      <td>-122.416308</td>
-    </tr>
-    <tr>
-      <th>37</th>
-      <td>San Francisco Int'l Airport</td>
-      <td>37.623908</td>
-      <td>-122.381592</td>
-    </tr>
-    <tr>
-      <th>38</th>
-      <td>San Leandro</td>
-      <td>37.722142</td>
-      <td>-122.160978</td>
-    </tr>
-    <tr>
-      <th>39</th>
-      <td>South Hayward</td>
-      <td>37.634350</td>
-      <td>-122.057190</td>
-    </tr>
-    <tr>
-      <th>40</th>
-      <td>South San Francisco</td>
-      <td>37.663982</td>
-      <td>-122.443573</td>
-    </tr>
-    <tr>
-      <th>41</th>
-      <td>Union City</td>
-      <td>37.590736</td>
-      <td>-122.017256</td>
-    </tr>
-    <tr>
-      <th>42</th>
-      <td>Walnut Creek</td>
-      <td>37.905463</td>
-      <td>-122.067564</td>
-    </tr>
-    <tr>
-      <th>43</th>
-      <td>West Dublin/Pleasanton</td>
-      <td>37.700835</td>
-      <td>-121.927771</td>
-    </tr>
-    <tr>
-      <th>44</th>
-      <td>West Oakland</td>
-      <td>37.804896</td>
-      <td>-122.295178</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -1310,30 +499,30 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">geo_data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;FeatureCollection&#39;</span><span class="p">,</span> 
-    <span class="s">&#39;features&#39;</span><span class="p">:</span> <span class="p">[]</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">geo_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;FeatureCollection&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;features&#39;</span><span class="p">:</span> <span class="p">[]</span>
 <span class="p">}</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">bart</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
     <span class="n">feature</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;Feature&#39;</span><span class="p">,</span> 
-        <span class="s">&#39;geometry&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;Point&quot;</span><span class="p">,</span> 
-            <span class="s">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">bart</span><span class="p">[</span><span class="s">&#39;longitude&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">bart</span><span class="p">[</span><span class="s">&#39;latitude&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])]</span>
+        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;Feature&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;geometry&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Point&quot;</span><span class="p">,</span> 
+            <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">bart</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">bart</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])]</span>
         <span class="p">},</span>
-            <span class="s">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s">&#39;station_name&#39;</span><span class="p">:</span> <span class="n">bart</span><span class="p">[</span><span class="s">&#39;station_name&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;station_name&#39;</span><span class="p">:</span> <span class="n">bart</span><span class="p">[</span><span class="s1">&#39;station_name&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
             <span class="p">}</span>
     <span class="p">}</span>
 
-    <span class="c"># Add the feature into the GeoJSON wrapper</span>
-    <span class="n">geo_data</span><span class="p">[</span><span class="s">&#39;features&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+    <span class="c1"># Add the feature into the GeoJSON wrapper</span>
+    <span class="n">geo_data</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;map/geojson/bart_coords.geojson&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;map/geojson/bart_coords.geojson&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">geo_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
@@ -1353,14 +542,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;map/geojson/bart_coords.geojson&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;map/geojson/bart_coords.geojson&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">infile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;map/geojson/bart_coords.js&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;var bart = &#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;map/geojson/bart_coords.js&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;var bart = &#39;</span><span class="p">)</span>
         <span class="n">outfile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
 <span class="n">infile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -1386,7 +575,244 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre> 
+<div class=" highlight hl-ipython3"><pre> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Batch-Geocoding-with-the-Census-Geocoder-API">Batch Geocoding with the Census Geocoder API<a class="anchor-link" href="#Batch-Geocoding-with-the-Census-Geocoder-API">&#182;</a></h1><p>The Census Geocoding API provides a great, free service for geocoding US street addresses. You can read about the Census Geocoder and test it using the online interface at <a href="http://geocoding.geo.census.gov/geocoder">http://geocoding.geo.census.gov/geocoder</a>. Note, the online geocoding interface allows one to geocode up to 1000 addresses at a time without programming via a file upload utility.  Below we show you how to programmatically access the <a href="http://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.html">Census Geocoding API</a>.</p>
+<h3 id="The-good-stuff:">The good stuff:<a class="anchor-link" href="#The-good-stuff:">&#182;</a></h3><ul>
+<li>There are no restrictions on the number of addresses you can geocode or what you can do with the results.</li>
+<li>You can submit a file of up to 1000 addresses to geocode at a time. This is called <strong>batch geocoding</strong>.</li>
+</ul>
+<h3 id="The-bad-stuff:">The bad stuff:<a class="anchor-link" href="#The-bad-stuff:">&#182;</a></h3><ul>
+<li>The geocoding results will not be as good as what you get with the Google Geocoder. But for most applications it is good enough.</li>
+<li>You are limited to US addresses.</li>
+</ul>
+<h3 id="Address-format:">Address format:<a class="anchor-link" href="#Address-format:">&#182;</a></h3><p>The Census Geocding API requires addresses to be in a strict format:</p>
+<ul>
+<li>no header row</li>
+<li>the first column must contain a unique id</li>
+<li>the id is followed by comma separated values for street address, city, state, and zip<ul>
+<li>if any component is missing a comma must still be used to separate address components</li>
+</ul>
+</li>
+<li>example:
+<pre>
+1,409 Main St,Oakland,CA,94605
+2,310 Main St,,CA,94605
+&lt;/Pre&gt;</li>
+</ul>
+<p><strong>Note:</strong> The id column can contain any unique value, for example a place name rather than a numeric id.</p>
+<ul>
+<li>example:
+<pre>
+house 1,409 Main St,Oakland,CA,94605
+house 2,310 Main St,,CA,94605
+&lt;/Pre&gt;</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Read-in-file-of-addresses-to-geocode-with-the-Census-Geocoder">Read in file of addresses to geocode with the Census Geocoder<a class="anchor-link" href="#Read-in-file-of-addresses-to-geocode-with-the-Census-Geocoder">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c1"># Identify the file with the addresses in the format required by the geocoder.</span>
+<span class="c1"># Take a look at the contents of this file to see how these are structured.</span>
+<span class="n">cgfile</span> <span class="o">=</span> <span class="s1">&#39;data/bart_addresses_census_format.csv&#39;</span>
+
+<span class="c1"># Configure API parameters</span>
+<span class="c1"># You can read about them here: http://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.html</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://geocoding.geo.census.gov/geocoder/geographies/addressbatch&#39;</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;benchmark&#39;</span><span class="p">:</span><span class="s1">&#39;Public_AR_Current&#39;</span><span class="p">,</span><span class="s1">&#39;vintage&#39;</span><span class="p">:</span><span class="s1">&#39;ACS2013_Current&#39;</span><span class="p">}</span>
+<span class="n">files</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;addressFile&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">cgfile</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">cgfile</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">),</span> <span class="s1">&#39;text/csv&#39;</span><span class="p">)}</span>
+
+<span class="c1"># Submit the file of addresses to geocode</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">payload</span><span class="p">)</span>
+
+<span class="c1"># Review the output</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Save-geocoded-output-to-file">Save geocoded output to file<a class="anchor-link" href="#Save-geocoded-output-to-file">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c1"># Save geocoded data to file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/bart_geocoded_addresses_from_census.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+    <span class="n">outfile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Read-geocoded-data-back-in-to-do-any-post-processing">Read geocoded data back in to do any post processing<a class="anchor-link" href="#Read-geocoded-data-back-in-to-do-any-post-processing">&#182;</a></h3><p>When we do this we will add header rows as there were none in the Census Geocoder output.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c1"># Read geocoded data into pandas data frame</span>
+<span class="n">colnames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;station_name&#39;</span><span class="p">,</span><span class="s1">&#39;inaddr&#39;</span><span class="p">,</span><span class="s1">&#39;ismatch&#39;</span><span class="p">,</span><span class="s1">&#39;matchtype&#39;</span><span class="p">,</span><span class="s1">&#39;maddr&#39;</span><span class="p">,</span><span class="s1">&#39;lon_lat&#39;</span><span class="p">,</span><span class="s1">&#39;tlid&#39;</span><span class="p">,</span><span class="s1">&#39;sideofst&#39;</span><span class="p">,</span><span class="s1">&#39;fipstate&#39;</span><span class="p">,</span><span class="s1">&#39;fipcounty&#39;</span><span class="p">,</span><span class="s1">&#39;fiptract&#39;</span><span class="p">,</span><span class="s1">&#39;junk&#39;</span><span class="p">]</span>
+<span class="n">bart_geocoded</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/bart_geocoded_addresses_from_census.csv&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">bart_geocoded</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">colnames</span>
+<span class="n">bart_geocoded</span>
+<span class="k">del</span> <span class="n">bart_geocoded</span><span class="p">[</span><span class="s1">&#39;junk&#39;</span><span class="p">]</span> <span class="c1">#delete junk column at end of file</span>
+<span class="n">bart_geocoded</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c1"># Subset data frame to select only matched addresses</span>
+<span class="n">bart_geocoded_match</span> <span class="o">=</span> <span class="n">bart_geocoded</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bart_geocoded</span><span class="p">[</span><span class="s1">&#39;ismatch&#39;</span><span class="p">]</span><span class="o">==</span> <span class="s1">&#39;Match&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c1"># Reformat and create a new data frame that we can map</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="n">bart_geocoded_match</span><span class="p">[</span><span class="s1">&#39;station_name&#39;</span><span class="p">],</span> 
+        <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="n">bart_geocoded_match</span><span class="p">[</span><span class="s1">&#39;lon_lat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="n">bart_geocoded_match</span><span class="p">[</span><span class="s1">&#39;lon_lat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="n">bart_geocoded_match</span><span class="p">[</span><span class="s1">&#39;maddr&#39;</span><span class="p">]</span>
+       <span class="p">}</span>
+<span class="n">bart</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;station&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span><span class="s1">&#39;address&#39;</span><span class="p">])</span>
+<span class="n">bart</span><span class="o">.</span><span class="n">df</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise:">Exercise:<a class="anchor-link" href="#Exercise:">&#182;</a></h2><p>Use the mapping code from the Google Geocoder section above to create a map using the census geocoder results.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c1"># Your code here to create the geojson data</span>
+
+
+<span class="c1"># Now save the geojson data to a file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;map/geojson/bart_coords2.geojson&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">geo_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="c1"># Read in the geojson data and write it out to a javascript file so we can map it</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;map/geojson/bart_coords2.geojson&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">infile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;map/geojson/bart_coords2.js&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;var bart = &#39;</span><span class="p">)</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+<span class="n">infile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Now-open-the-Census-geocoded-map/bart_map2.html.">Now open the Census geocoded map/bart_map2.html.<a class="anchor-link" href="#Now-open-the-Census-geocoded-map/bart_map2.html.">&#182;</a></h3><p>Your spreadsheet of text addresses have now been geocoded and mapped!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre> 
 </pre></div>
 
 </div>
